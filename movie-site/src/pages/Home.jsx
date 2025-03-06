@@ -1,33 +1,48 @@
 import "../css/Home.css";
 import MovieCard from "../components/MovieCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPopularMovies, searchMovies } from "../services/api";
 
 function Home() {
   // useState hook
   const [searchQuery, setSearchQuery] = useState("");
-  const movies = [
-    {
-      title: "Shrek",
-      release_Data: "2000",
-      url: "https://placehold.co/400x600",
-    },
-    {
-      title: "Shrek 2",
-      release_Data: "2004",
-      url: "https://placehold.co/400x600",
-    },
-    {
-      title: "Shrek 5",
-      release_Data: "2026",
-      url: "https://placehold.co/400x600",
-    },
-  ];
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      try {
+        setLoading(true);
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+        setError(null);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load movies");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPopularMovies();
+  }, []);
   // event handler
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault(); // prevents the form from actually submitting
-    alert(searchQuery);
-    setSearchQuery("");
+    if (!searchQuery.trim()) return; // prevent empty searches
+    if (loading) return; // prevent spam searches (multiple requests while loading)
+    setLoading(true);
+    try {
+      const searchResults = await searchMovies(searchQuery);
+      setMovies(searchResults);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to search movies");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="home">

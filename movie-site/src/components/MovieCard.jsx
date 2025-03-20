@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../css/MovieCard.css";
 import { useMovieContext } from "../context/MovieContext";
 // functional component - takes a movie as a prop
@@ -35,7 +36,8 @@ function MovieCard({ movie }) {
       </div>
       <div className="movie-info">
         <h3>{movie.title}</h3>
-        <p>{movie.release_data}</p>
+        <p>{movie.release_date?.split("-")[0]}</p>
+        <Link to={`/movie/${movie.id}`}>View Details</Link>
       </div>
     </div>
   );

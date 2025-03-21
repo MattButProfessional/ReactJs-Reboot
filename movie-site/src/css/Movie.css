@@ -5,24 +5,34 @@
   justify-self: center;
   align-items: center;
 }
-img {
+.DetailImg {
   width: 500px;
-  margin: auto;
+  margin: 20px;
+  /* padding: 20px; */
+  border-radius: 20px;
 }
 
-h1 {
+.DetailH1 {
   padding: 20px;
 }
-h2 {
+.DetailH2 {
+  padding: 10px;
   justify-self: left;
 }
-p {
+.DetailParagraph {
   justify-self: left;
   padding: 10px;
+  text-align: left;
+}
+.DetailList {
+  padding: 10px;
+  text-align: left;
 }
 .Container-Two {
   display: flex;
   flex-direction: row;
+  background-color: #1b1b1b;
+  border-radius: 20px;
 }
 
 .Info-Container {
